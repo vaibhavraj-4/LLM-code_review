@@ -1,0 +1,77 @@
+~<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTTP POST Request Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      #response {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+    </style>
+    <!-- Include marked.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+  <body>
+    <h1>Make HTTP POST Request</h1>
+    <label for="sentences">Enter sentences (one per line):</label>
+    <textarea id="sentences" rows="5"></textarea>
+    <button onclick="makePostRequest()">Send POST Request</button>
+
+    <div id="response"></div>
+
+    <script>
+      function makePostRequest() {
+        const url = "http://localhost:5500/error_prompts"; // Replace with your URL
+        const sentences = document
+          .getElementById("sentences")
+          .value.split("\n");
+
+        const data = { error_prompts: sentences };
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const markdownContent = data.responses.join("\n");
+            const htmlContent = marked.parse(markdownContent);
+            document.getElementById("response").innerHTML = htmlContent;
+          })
+          .catch((error) => {
+            document.getElementById("response").innerText = "Error: " + error;
+          });
+      }
+    </script>
+  </body>
+</html>
