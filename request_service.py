@@ -14,7 +14,7 @@ def to_markdown(text):
     """)
 
 # Set your Google API key
-GOOGLE_API_KEY = "AIzaSyA2_EGey1TuCBXBV0_WHNW1nJDnAxCc2SU"
+GOOGLE_API_KEY = "GOOGLE_API_KEY "
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
